@@ -1,0 +1,23 @@
+.hero1 {
+  font-size: 4em;
+  font-weight: normal;
+  margin-top: 3em;
+  margin-bottom: 0;
+}
+
+.hero2 {
+  font-size: 1.7em;
+  font-weight: normal;
+  margin-top: 1.5em;
+}
+
+@media (max-width: 768px) {
+  .hero1 {
+    font-size: 2em;
+    margin-top: 1.5em;
+  }
+  .hero2 {
+    font-size: 1.5em;
+    margin-top: 0.5em;
+  }
+}
