@@ -8,6 +8,8 @@ import {
   Segment,
   Visibility
 } from 'semantic-ui-react';
+import styles from './styles.css';
+import TopBar from '../TopBar';
 
 class DesktopContainer extends Component {
   state = { fixed: false };
@@ -26,21 +28,14 @@ class DesktopContainer extends Component {
           onBottomPassed={this.showFixedMenu}
           onBottomPassedReverse={this.hideFixedMenu}
         >
-          <Segment
-            inverted
-            textAlign="center"
-            style={{
-              //minHeight: 700,
-              padding: '1em 0em'
-            }}
-            vertical
-          >
+          <TopBar />
+          <Segment textAlign="center" className={styles.root} vertical>
             <Menu
               fixed={fixed ? 'top' : null}
-              inverted={!fixed}
               pointing={!fixed}
               secondary={!fixed}
               size="large"
+              className={styles.menu}
             >
               <Container>
                 <Menu.Item as="a" active>
@@ -50,17 +45,8 @@ class DesktopContainer extends Component {
                 <Menu.Item as="a">Company</Menu.Item>
                 <Menu.Item as="a">Careers</Menu.Item>
                 <Menu.Item position="right">
-                  <Button as="a" inverted={!fixed}>
-                    Log in
-                  </Button>
-                  <Button
-                    as="a"
-                    inverted={!fixed}
-                    primary={fixed}
-                    style={{
-                      marginLeft: '0.5em'
-                    }}
-                  >
+                  <Button as="a">Log in</Button>
+                  <Button as="a" primary={fixed} className={styles.signUp}>
                     Sign Up
                   </Button>
                 </Menu.Item>

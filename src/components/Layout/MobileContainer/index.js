@@ -9,6 +9,8 @@ import {
   Sidebar
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
+import styles from './styles.css';
+import TopBar from '../TopBar';
 
 class MobileContainer extends Component {
   state = {};
@@ -51,34 +53,18 @@ class MobileContainer extends Component {
           <Sidebar.Pusher
             dimmed={sidebarOpened}
             onClick={this.handlePusherClick}
-            style={{
-              minHeight: '100vh'
-            }}
+            className={styles.pusher}
           >
-            <Segment
-              inverted
-              textAlign="center"
-              style={{
-                padding: '1em 0em'
-              }}
-              vertical
-            >
+            <TopBar />
+            <Segment textAlign="center" className={styles.menuWrap} vertical>
               <Container>
-                <Menu inverted pointing secondary size="large">
+                <Menu pointing secondary size="large">
                   <Menu.Item onClick={this.handleToggle}>
                     <Icon name="sidebar" />
                   </Menu.Item>
                   <Menu.Item position="right">
-                    <Button as="a" inverted>
-                      Log in
-                    </Button>
-                    <Button
-                      as="a"
-                      inverted
-                      style={{
-                        marginLeft: '0.5em'
-                      }}
-                    >
+                    <Button as="a">Log in</Button>
+                    <Button as="a" className={styles.signUp}>
                       Sign Up
                     </Button>
                   </Menu.Item>

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { Input } from 'semantic-ui-react';
 
 import logo from './logo.svg';
 import styles from './App.css';
 import CompanyContext from './components/CompanyContext';
-import Store from './data/Store';
+import Store from './store/Store';
 import Routes from './routes';
 import Layout from './components/Layout';
 
