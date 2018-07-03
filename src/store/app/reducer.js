@@ -1,15 +1,29 @@
 import {ACTION_TYPES as AT} from './actions'
 
 export const defaultState = {
-    companyName: 'default',
+    carrier: null,
 
     shipment: null,
     shipmentError: null,
     shipmentPending: false
-}
+};
 
 const app = (state = defaultState, action) => {
     switch (action.type) {
+        case AT.SET_CARRIER:
+            return {
+                ...state,
+                carrier: action.payload
+            }
+        case AT.UNSET_CARRIER:
+            return {
+                ...state,
+                carrier: null
+            }
+        case AT.CLEAR_ALL:
+            return {
+                ...defaultState
+            }
         case AT.FETCH_SHIPMENT:
             return {
                 ...state,

@@ -1,30 +1,31 @@
-import React, { Component } from 'react';
-import { Provider } from 'react-redux';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React, {Component} from 'react';
+import {Provider} from 'react-redux';
+import {BrowserRouter as Router} from 'react-router-dom';
 
 import logo from './logo.svg';
-import styles from './App.css';
-import CompanyContext from './components/CompanyContext';
+import CarrierContext from './components/CarrierContext';
 import Store from './store/Store';
 import Routes from './routes';
 import Layout from './components/Layout';
 
 class App extends Component {
-  state = { loading: true };
+  state = {
+    loading: true
+  };
 
   componentDidMount() {
-    setTimeout(() => this.setState({ loading: false }), 3000);
+    setTimeout(() => this.setState({loading: false}), 3000);
   }
 
   render() {
     return (
       <Provider store={Store}>
         <Router>
-          <CompanyContext.Provider>
+          <CarrierContext.Provider>
             <Layout>
-              <Routes />
+              <Routes/>
             </Layout>
-          </CompanyContext.Provider>
+          </CarrierContext.Provider>
         </Router>
       </Provider>
     );
