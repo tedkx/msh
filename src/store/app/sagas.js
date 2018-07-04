@@ -1,4 +1,5 @@
-import {takeEvery, call, put, select} from 'redux-saga/effects'
+import {takeEvery, call, put} from 'redux-saga/effects'
+import api from 'utils/api';
 
 import {createAction} from '../../utils/redux'
 import {ACTION_TYPES as AT} from './actions'
@@ -7,16 +8,9 @@ import {ACTION_TYPES as AT} from './actions'
 
 export function * fetchShipment(action) {
     try {
-        // const content = yield call(Api.login, action.payload)
-        const content = {
-            id: 1234,
-            awb: '1234'
-        };
+        const content = yield call(api.fetchShipment, action.payload)
         yield put(createAction(AT.FETCH_SHIPMENT_SUCCESS, content))
     } catch (e) {
-        // let error = S.extractSagaError(e); if(error.type !=
-        // ResponseErrorTypes.Unauthenticated)     Logger.error('login error', e,
-        // error);
         yield put(createAction(AT.LOGIN_FAIL, null, 'FAILED'));
     }
 }

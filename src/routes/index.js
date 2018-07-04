@@ -3,7 +3,6 @@ import {Switch, Route} from 'react-router-dom';
 
 import Search from '../components/Search';
 import ActionsList from '../components/ActionsList';
-import CarrierSelector from '../components/CarrierSelector';
 import Home from './Home';
 
 const Service1 = props => <div>Service1</div>;

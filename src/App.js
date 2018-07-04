@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Provider} from 'react-redux';
 import {BrowserRouter as Router} from 'react-router-dom';
 
-import logo from './logo.svg';
 import CarrierContext from './components/CarrierContext';
 import Store from './store/Store';
 import Routes from './routes';
