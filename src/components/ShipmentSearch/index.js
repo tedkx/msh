@@ -1,26 +1,42 @@
-import React from 'react'
-import {bool, func, object} from 'prop-types'
-import {Form, Message, Segment} from 'semantic-ui-react';
+import React from 'react';
+import { bool, func, object } from 'prop-types';
+import { Button, Form, Message, Segment } from 'semantic-ui-react';
 
-const ShipmentSearch = props => (
-    <Segment inverted>
-        <Form loading={props.loading === true} onSubmit>
-            <Form.Input
-                ref={props.inputRef}
-                icon="search"
-                placeholder="Αναζήτηση Αποστολής"/> {!!props.error
-                ? (<Message error content={props.error.description}/>)
-                : false
-}
+class ShipmentSearch extends React.Component {
+  state = { shipmentNumber: null, submitted: false };
+  handleChange = (e, { value }) => this.setState({ shipmentNumber: value });
+  handleSubmit = (...args) => {
+    this.setState({ submitted: true });
+    this.props.onSubmit(this.state.shipmentNumber);
+  };
+
+  render() {
+    const { error, inputRef, loading } = this.props;
+    return (
+      <Segment inverted>
+        <Form loading={loading === true} onSubmit={this.handleSubmit}>
+          <Form.Input
+            name="shipmentNumber"
+            ref={inputRef}
+            placeholder="Αναζήτηση Αποστολής"
+            onChange={this.handleChange}
+            action
+          >
+            <input />
+            <Button icon="search" loading={this.state.submitted} />
+          </Form.Input>{' '}
+          {!!error ? <Message error content={error.description} /> : false}
         </Form>
-    </Segment>
-)
+      </Segment>
+    );
+  }
+}
 
 ShipmentSearch.propTypes = {
-    error: object,
-    inputRef: func,
-    loading: bool,
-    onSubmit: func
-}
+  error: object,
+  inputRef: func,
+  loading: bool,
+  onSubmit: func.isRequired,
+};
 
-export default ShipmentSearch
+export default ShipmentSearch;

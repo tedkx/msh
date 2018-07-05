@@ -1,56 +1,75 @@
 import React from 'react';
-import {Redirect} from 'react-router';
-import {Container, Header, Segment} from 'semantic-ui-react';
+import { Redirect } from 'react-router';
+import { Container, Header, Segment } from 'semantic-ui-react';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import CarrierSelector from 'components/CarrierSelector';
 import ShipmentSearch from 'components/ShipmentSearch';
+
 import styles from './styles.css';
+import transitions from './transitions.css';
 
 class Home extends React.Component {
-  state = {
-    redirect: false
-  };
-
-  getDerivedStateFromProps(props, state) {
-    return {
-      ...state,
-      redirect: !!props.shipment
-    };
-  }
-
-  handleInputRef = c => {
-    c.focus();
-  }
+  handleInputRef = c => c.focus();
 
   render() {
-    if (this.state.redirect === true) 
-      return <Redirect to="404"/>;
-    
-    const {carrier, fetchShipment, setCarrier, shipmentPending, shipmentError} = this.props;
+    const {
+      carrier,
+      fetchShipment,
+      setCarrier,
+      shipment,
+      shipmentPending,
+      shipmentError,
+    } = this.props;
+    if (!!shipment) return <Redirect to="404" />;
 
     return (
-      <Segment inverted grid textAlign="center">
+      <Segment inverted textAlign="center">
         <Container text>
-          <Segment vertical className={styles.emptySpace}/>
+          <Segment vertical className={styles.emptySpace} />
           <Header
             as="h1"
             content="Asdadaw y Qewiuhads"
             className={styles.centerAligned}
-            inverted/>
+            inverted
+          />
           <Header
             as="h2"
             content="Lorem ipsum sit amed dolor"
             className={styles.hero2}
-            inverted/>{' '} {carrier
-            ? (<ShipmentSearch
-              onSubmit={fetchShipment}
-              inputRef={this.handleInputRef}
-              loading={shipmentPending}
-              error={shipmentError}/>)
-            : (<CarrierSelector onSelect={carrier => setCarrier(carrier.name)}/>)}
+            inverted
+          />{' '}
+          <TransitionGroup>
+            {!!carrier ? (
+              <CSSTransition
+                key="search"
+                classNames={transitions}
+                timeout={300}
+              >
+                <ShipmentSearch
+                  onSubmit={fetchShipment}
+                  inputRef={this.handleInputRef}
+                  loading={shipmentPending}
+                  error={shipmentError}
+                />
+              </CSSTransition>
+            ) : (
+              <CSSTransition
+                key="carrier"
+                classNames={transitions}
+                timeout={300}
+              >
+                <CarrierSelector
+                  onSelect={carrier => setCarrier(carrier.name)}
+                />
+              </CSSTransition>
+            )}
+          </TransitionGroup>
         </Container>
-        <Segment style={{
-          minHeight: '1500px'
-        }}/>
+        <Segment
+          style={{
+            minHeight: '1500px',
+          }}
+        />
       </Segment>
     );
   }

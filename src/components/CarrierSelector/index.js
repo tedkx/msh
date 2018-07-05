@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Image, Segment} from 'semantic-ui-react';
+import { Grid, Image, Segment } from 'semantic-ui-react';
 
 import truck from 'dummyAssets/truck.jpg';
 
@@ -7,20 +7,23 @@ const supportedCarriers = [
   {
     name: 'dhl',
     label: 'DHL',
-    icon: ''
-  }, {
+    icon: '',
+  },
+  {
     name: 'acs',
     label: 'ACS',
-    icon: ''
-  }, {
+    icon: '',
+  },
+  {
     name: 'couriercenter',
     label: 'CourierCenter',
-    icon: ''
-  }, {
+    icon: '',
+  },
+  {
     name: 'tnt',
     label: 'TNT',
-    icon: ''
-  }
+    icon: '',
+  },
 ];
 
 const CarrierSelector = props => (
@@ -28,11 +31,13 @@ const CarrierSelector = props => (
     <Grid doubling columns={supportedCarriers.length}>
       {supportedCarriers.map(c => (
         <Grid.Column
+          key={`col-${c.name}`}
           textAlign="center"
           as="a"
           href="#"
-          onClick={e => props.onSelect(c)}>
-          <Image src={truck} width="80" centered/> {c.label}
+          onClick={e => props.onSelect(c)}
+        >
+          <Image src={truck} width="80" centered /> {c.label}
         </Grid.Column>
       ))}
     </Grid>
