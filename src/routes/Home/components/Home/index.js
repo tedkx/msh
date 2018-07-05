@@ -20,7 +20,7 @@ class Home extends React.Component {
       shipmentPending,
       shipmentError,
     } = this.props;
-    if (!!shipment) return <Redirect to="404" />;
+    if (!!shipment) return <Redirect to={`${carrier}/${shipment.AWB}`} />;
 
     return (
       <Segment inverted textAlign="center">
