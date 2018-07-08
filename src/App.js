@@ -8,14 +8,6 @@ import Routes from './routes';
 import Layout from './components/Layout';
 
 class App extends Component {
-  state = {
-    loading: true
-  };
-
-  componentDidMount() {
-    setTimeout(() => this.setState({loading: false}), 3000);
-  }
-
   render() {
     return (
       <Provider store={Store}>

@@ -1,4 +1,4 @@
-const logger = process.env.NODE_ENV === 'dev'
+const logger = process.env.NODE_ENV === 'dev' || process.env.NODE_ENV === 'development'
     ? {
         error: (origin, ...params) => console.error(origin, ...params),
         info: (origin, ...params) => console.info(origin, ...params),

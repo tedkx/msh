@@ -1,31 +1,70 @@
 import React from 'react';
-import { bool, func, object } from 'prop-types';
-import { Button, Form, Message, Segment } from 'semantic-ui-react';
+import {bool, func, object, string} from 'prop-types';
+import {Button, Form, Message, Popup, Segment} from 'semantic-ui-react';
+import {isNil} from 'utils/core';
+import {withCarrier} from 'utils/hocs';
+
+const carrierConfig = {
+  dhl: {}
+}
 
 class ShipmentSearch extends React.Component {
-  state = { shipmentNumber: null, submitted: false };
-  handleChange = (e, { value }) => this.setState({ shipmentNumber: value });
-  handleSubmit = (...args) => {
-    this.setState({ submitted: true });
-    this.props.onSubmit(this.state.shipmentNumber);
+  state = {
+    error: null,
+    focusedOnce: false,
+    shipmentNumber: null,
+    submitted: false,
+    popupNode: null
   };
 
+  handleInputRef = elem => {
+    if (this.props.autofocus === false || !elem || this.state.focusedOnce) 
+      return;
+    elem.focus();
+    this.setState({focusedOnce: true});
+  }
+  handlePopupRef = elem => this.state.popupNode === null && this.setState({popupNode: elem});
+  handleChange = (e, {value}) => this.setState({shipmentNumber: value});
+  handleSubmit = () => this
+    .props
+    .onSubmit(this.state.shipmentNumber);
+
+  static getDerivedStateFromProps(props, state) {
+    const obj = isNil(props.error)
+      ? state
+      : {
+        ...state,
+        error: props.error
+      };
+    //console.log('derived', props.error, state.error, '->', obj);
+    return obj
+  }
+
   render() {
-    const { error, inputRef, loading } = this.props;
+    const {className, loading, style} = this.props;
+    const {error, popupNode} = this.state;
+    const hasError = !isNil(error);
+
     return (
-      <Segment inverted>
-        <Form loading={loading === true} onSubmit={this.handleSubmit}>
+      <Segment inverted style={style} className={className}>
+        <Form onSubmit={this.handleSubmit}>
           <Form.Input
             name="shipmentNumber"
-            ref={inputRef}
             placeholder="Αναζήτηση Αποστολής"
             onChange={this.handleChange}
-            action
-          >
-            <input />
-            <Button icon="search" loading={this.state.submitted} />
-          </Form.Input>{' '}
-          {!!error ? <Message error content={error.description} /> : false}
+            error={hasError}
+            disabed={loading === true}
+            action>
+            <input ref={this.handleInputRef}/>
+            <Popup
+              trigger={(<Button ref={this.handlePopupRef} icon="search" loading={loading === true}/>)}
+              context={popupNode}
+              content={error}
+              position='right center'
+              open={hasError}/>
+          </Form.Input>{' '} {!!error
+            ? <Message error content={error.description}/>
+            : false}
         </Form>
       </Segment>
     );
@@ -33,10 +72,13 @@ class ShipmentSearch extends React.Component {
 }
 
 ShipmentSearch.propTypes = {
-  error: object,
-  inputRef: func,
+  autofocus: bool,
+  carrier: string.isRequired,
+  className: string,
+  error: string,
   loading: bool,
   onSubmit: func.isRequired,
+  style: object
 };
 
-export default ShipmentSearch;
+export default withCarrier(ShipmentSearch);

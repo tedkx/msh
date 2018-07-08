@@ -71,8 +71,8 @@ module.exports = {
   },
   resolve: {
     // This allows you to set a fallback for where Webpack should look for modules.
-    // We placed these paths second because we want `node_modules` to "win" if there
-    // are any conflicts. This matches Node resolution mechanism.
+    // We placed these paths second because we want `node_modules` to "win" if
+    // there are any conflicts. This matches Node resolution mechanism.
     // https://github.com/facebookincubator/create-react-app/issues/253
     modules: ['node_modules', paths.appNodeModules].concat(
     // It is guaranteed to exist because we tweak it in `env.js`
@@ -105,19 +105,13 @@ module.exports = {
       utils: path.resolve(paths.appSrc, './utils'),
       store: path.resolve(paths.appSrc, './store')
     },
-    plugins: [
-      // Prevents users from importing files from outside of src/ (or node_modules/).
+    plugins: [// Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with
       // babel. To fix this, we prevent you from importing files out of src/ -- if
       // you'd like to, please link the files into your node_modules/ and let
       // module-resolution kick in. Make sure your source files are compiled, as they
       // will not be processed in any way.
-      new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson]),
-      new webpack.DefinePlugin({
-        'process.env.NODE_ENV': JSON.stringify('dev'),
-        WPGLOBAL_SERVER_BASE_URL: JSON.stringify('http://localhost:8000/')
-      })
-    ]
+      new ModuleScopePlugin(paths.appSrc, [paths.appPackageJson])]
   },
   module: {
     strictExportPresence: true,
@@ -269,7 +263,11 @@ module.exports = {
     new webpack.NamedModulesPlugin(),
     // Makes some environment variables available to the JS code, for example: if
     // (process.env.NODE_ENV === 'development') { ... }. See `./env.js`.
-    new webpack.DefinePlugin(env.stringified),
+    new webpack.DefinePlugin({
+      ...env.stringified,
+      'process.env.NODE_ENV': JSON.stringify('dev'),
+      WPGLOBAL_SERVER_BASE_URL: JSON.stringify('http://localhost:8008/')
+    }),
     // This is necessary to emit hot updates (currently CSS only):
     new webpack.HotModuleReplacementPlugin(),
     // Watcher doesn't work well if you mistype casing in a path so we use a plugin

@@ -1,7 +1,15 @@
 .emptySpace {
   height: 150px;
 }
-
+.shipmentSearch {
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.transitionContainer {
+  position: relative;
+}
 /*
 @media (max-width: 768px) {
   .hero1 {

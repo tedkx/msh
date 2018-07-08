@@ -16,8 +16,7 @@ axios.defaults.timeout = 150000;
 
 const cth = 'content-type'
 const jsonct = 'application/json'
-
-const constructUrl = (resource) => `${WPGLOBAL_SERVER_BASE_URL}${resource}`;
+const constructUrl = resource => `${WPGLOBAL_SERVER_BASE_URL}${resource}`;
 
 // Set the cancellation token to the request config
 const configWithCancellation = (configObj = {}, cancellationToken) => ({
@@ -32,8 +31,7 @@ const doRequest = (type, resource, config, data, {anonymous, json}) => {
             request = type === REQ_POST
                 ? axios.post(constructUrl(resource), data, formattedConfig)
                 : axios.get(constructUrl(resource), formattedConfig);
-        request[CANCEL] = () => source.cancel()
-
+        request[CANCEL] = () => source.cancel();
         if (json === true) {
             request = request.then((resp) => {
                 if (resp.headers && resp.headers[cth] && resp.headers[cth] && resp.headers[cth].match(jsonct)) {

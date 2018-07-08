@@ -1,4 +1,4 @@
-//import {getJson} from './request';
+import {getJson} from './request';
 
 const api = {
   /* App */
@@ -6,20 +6,7 @@ const api = {
   // logout: () => Req.postJson('auth/logout', { Username:
   // Helper.getObjectProp(Store.getState().app, 'user.Username') }),
 
-  fetchShipment: shipmentNumber =>
-    new Promise((resolve, reject) => {
-      setTimeout(
-        () =>
-          resolve({
-            Id: 1,
-            AWB: '123456789',
-            Requestor: 'Ρηκουέστορ',
-            Shipper: 'Σίππερ',
-            EstimatedDelivery: '2018-07-20T00:15:23Z',
-          }),
-        1000
-      );
-    }),
+  fetchShipment: (carrier, shipmentNumber) => getJson(`api/${carrier}/shipment/${shipmentNumber}`)
 };
 
 export default api;
