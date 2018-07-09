@@ -24,44 +24,46 @@ class Home extends React.Component {
       return <Redirect to={`${carrier}/${shipment.AWB}`}/>;
     
     return (
-      <Segment inverted textAlign="center">
-        <Container text>
-          <Segment vertical className={styles.emptySpace}/>
-          <Header
-            as="h1"
-            content="Asdadaw y Qewiuhads"
-            className={styles.centerAligned}
-            inverted/>
-          <Header
-            as="h2"
-            content="Lorem ipsum sit amed dolor"
-            className={styles.hero2}
-            inverted/>{' '}
-          <div className={styles.transitionContainer}>
-            <TransitionGroup>
-              {!!carrier
-                ? (
-                  <CSSTransition key="search" classNames={transitions} timeout={300}>
-                    <ShipmentSearch
-                      onSubmit={shipmentNumber => fetchShipment(carrier, shipmentNumber)}
-                      inputRef={this.handleInputRef}
-                      loading={shipmentPending}
-                      error={shipmentError}
-                      className={styles.shipmentSearch}/>
-                  </CSSTransition>
-                )
-                : (
-                  <CSSTransition key="carrier" classNames={transitions} timeout={300}>
-                    <CarrierSelector onSelect={carrier => setCarrier(carrier.name)}/>
-                  </CSSTransition>
-                )}
-            </TransitionGroup>
-          </div>
-        </Container>
+      <div>
+        <Segment inverted textAlign="center" className={styles.banner}>
+          <Container text>
+            <Segment vertical className={styles.emptySpace}/>
+            <Header
+              as="h1"
+              content="Asdadaw y Qewiuhads"
+              className={styles.centerAligned}
+              inverted/>
+            <Header
+              as="h2"
+              content="Lorem ipsum sit amed dolor"
+              className={styles.hero2}
+              inverted/>{' '}
+            <div className={styles.transitionContainer}>
+              <TransitionGroup>
+                {!!carrier
+                  ? (
+                    <CSSTransition key="search" classNames={transitions} timeout={300}>
+                      <ShipmentSearch
+                        onSubmit={shipmentNumber => fetchShipment(carrier, shipmentNumber)}
+                        inputRef={this.handleInputRef}
+                        loading={shipmentPending}
+                        error={shipmentError}
+                        className={styles.shipmentSearch}/>
+                    </CSSTransition>
+                  )
+                  : (
+                    <CSSTransition key="carrier" classNames={transitions} timeout={300}>
+                      <CarrierSelector onSelect={carrier => setCarrier(carrier.name)}/>
+                    </CSSTransition>
+                  )}
+              </TransitionGroup>
+            </div>
+          </Container>
+        </Segment>
         <Segment style={{
           minHeight: '1500px'
         }}/>
-      </Segment>
+      </div>
     );
   }
 }

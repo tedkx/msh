@@ -46,7 +46,7 @@ class ShipmentSearch extends React.Component {
     const hasError = !isNil(error);
 
     return (
-      <Segment inverted style={style} className={className}>
+      <div style={style} className={className}>
         <Form onSubmit={this.handleSubmit}>
           <Form.Input
             name="shipmentNumber"
@@ -66,7 +66,7 @@ class ShipmentSearch extends React.Component {
             ? <Message error content={error.description}/>
             : false}
         </Form>
-      </Segment>
+      </div>
     );
   }
 }
