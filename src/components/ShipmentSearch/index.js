@@ -1,19 +1,16 @@
 import React from 'react';
 import {bool, func, object, string} from 'prop-types';
-import {Button, Form, Message, Popup, Segment} from 'semantic-ui-react';
+import {Button, Form, Message, Popup} from 'semantic-ui-react';
+import styles from './styles.css'
 import {isNil} from 'utils/core';
 import {withCarrier} from 'utils/hocs';
-
-const carrierConfig = {
-  dhl: {}
-}
+import {carriers} from 'utils/carrierData';
 
 class ShipmentSearch extends React.Component {
   state = {
     error: null,
     focusedOnce: false,
     shipmentNumber: null,
-    submitted: false,
     popupNode: null
   };
 
@@ -24,10 +21,26 @@ class ShipmentSearch extends React.Component {
     this.setState({focusedOnce: true});
   }
   handlePopupRef = elem => this.state.popupNode === null && this.setState({popupNode: elem});
-  handleChange = (e, {value}) => this.setState({shipmentNumber: value});
-  handleSubmit = () => this
-    .props
-    .onSubmit(this.state.shipmentNumber);
+  handleChange = e => this.setState({shipmentNumber: e.target.value, error: null})
+  handleSubmit = () => {
+    const {shipmentNumber} = this.state;
+    if (!this.validate(shipmentNumber)) 
+      return this.setState({error: 'Μη έγκυρος αριθμός αποστολής'})
+
+    this
+      .props
+      .onSubmit(shipmentNumber);
+  }
+  validate = number => {
+    const {carrier} = this.props;
+    const {searchValidation} = carriers[carrier];
+    const valid = typeof searchValidation === 'function'
+      ? searchValidation(number)
+      : searchValidation instanceof RegExp
+        ? searchValidation.test(number)
+        : true;
+    return valid;
+  }
 
   static getDerivedStateFromProps(props, state) {
     const obj = isNil(props.error)
@@ -36,7 +49,6 @@ class ShipmentSearch extends React.Component {
         ...state,
         error: props.error
       };
-    //console.log('derived', props.error, state.error, '->', obj);
     return obj
   }
 
@@ -51,17 +63,17 @@ class ShipmentSearch extends React.Component {
           <Form.Input
             name="shipmentNumber"
             placeholder="Αναζήτηση Αποστολής"
-            onChange={this.handleChange}
             error={hasError}
             disabed={loading === true}
+            className={styles.noBottomMargin}
             action>
-            <input ref={this.handleInputRef}/>
             <Popup
-              trigger={(<Button ref={this.handlePopupRef} icon="search" loading={loading === true}/>)}
+              trigger={(<input ref={this.handleInputRef} onChange={this.handleChange}/>)}
               context={popupNode}
               content={error}
-              position='right center'
+              position='bottom center'
               open={hasError}/>
+            <Button ref={this.handlePopupRef} icon="search" loading={loading === true}/>
           </Form.Input>{' '} {!!error
             ? <Message error content={error.description}/>
             : false}

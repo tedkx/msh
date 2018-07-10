@@ -1,43 +1,22 @@
 import React from 'react';
-import { Grid, Image, Segment } from 'semantic-ui-react';
+import {Grid, Image, Segment} from 'semantic-ui-react';
+import {carriers as carriersObj} from 'utils/carrierData';
 
 import truck from 'dummyAssets/truck.jpg';
 
-const supportedCarriers = [
-  {
-    name: 'dhl',
-    label: 'DHL',
-    icon: '',
-  },
-  {
-    name: 'acs',
-    label: 'ACS',
-    icon: '',
-  },
-  {
-    name: 'couriercenter',
-    label: 'CourierCenter',
-    icon: '',
-  },
-  {
-    name: 'tnt',
-    label: 'TNT',
-    icon: '',
-  },
-];
+const carriers = Object.values(carriersObj);
 
 const CarrierSelector = props => (
   <Segment>
-    <Grid doubling columns={supportedCarriers.length}>
-      {supportedCarriers.map(c => (
+    <Grid doubling columns={carriers.length}>
+      {carriers.map(c => (
         <Grid.Column
           key={`col-${c.name}`}
           textAlign="center"
           as="a"
           href="#"
-          onClick={e => props.onSelect(c)}
-        >
-          <Image src={truck} width="80" centered /> {c.label}
+          onClick={e => props.onSelect(c)}>
+          <Image src={truck} width="80" centered/> {c.label}
         </Grid.Column>
       ))}
     </Grid>
